@@ -2,9 +2,11 @@ import dateutil.parser
 import feedparser
 import urllib2
 import cherrypy
+from tiles.addons.plugin import TileSource
 from tiles.obj.tile import Tile
 from time import mktime
 from datetime import datetime
+
 
 def get_unread_msgs_atom(user, passwd):
     auth_handler = urllib2.HTTPBasicAuthHandler()
@@ -20,7 +22,7 @@ def get_unread_msgs_atom(user, passwd):
     return feed.read()
 
 
-class GMail:
+class GMail(TileSource):
 	
 	def __init__(self):
 		self.module = "GMail"
@@ -40,3 +42,4 @@ class GMail:
 			t.date = datetime.fromtimestamp(mktime(entry.issued_parsed))
 			tiles.append(t)
 		return tiles
+

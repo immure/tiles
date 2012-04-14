@@ -2,6 +2,8 @@ import dateutil.parser
 import feedparser
 import urllib2
 import pprint
+import cherrypy
+from tiles.addons.plugin import TileSource
 from tiles.obj.tile import Tile
 from time import mktime
 from datetime import datetime
@@ -11,7 +13,7 @@ def get_feed():
     return feed.read()
 
 
-class Facebook:
+class Facebook(TileSource):
 	
 	def __init__(self):
 		self.module = "Facebook"

@@ -41,12 +41,19 @@
 	</head>
 	<body padding=0>
 	<h2>{{ msg }}</h2>
+	<div class="menu" id="menu">
+		<ul>
+			<li>{{menu_link('Facebook')}}</li>
+			<li>{{menu_link('SABnzbd')}}</li>
+			<li>{{menu_link('Gmail')}}</li>
+		</ul>
+	</div>
 	<div class="container" id="container" >
 		<!--<div class="item header">
 			<h1><a href="#"><span>&hearts;</span> Tiles</a></h1>
 			<p class="subline">Your life. Just There.</p>
 		</div>-->
-			{% for tile in tiles %}
+			{% for tile in tiles_i %}
 				<div class="item block"  data-bgimage="img/{{tile.module}}.png">
 					<div class="thumbs-wrapper">
 						<div class="thumbs">

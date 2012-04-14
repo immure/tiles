@@ -29,6 +29,7 @@ a.more_link:hover{
 .container {
 	position:relative;
 	margin:10px;
+	left: 100px;
 }
 h1, h2{
 	font-family:'Oswald', Arial, sans-serif;
@@ -102,7 +103,7 @@ p.subline{
 	line-height:20px;
 	font-size:11px;
 	text-transform: uppercase;
-	letter-spacing: 4px;
+	letter-spacing: 2px;
 	font-style:normal;
 }
 .block{

@@ -3,6 +3,7 @@ import feedparser
 import urllib2
 import pprint
 import cherrypy
+from tiles.addons.plugin import TileSource
 from tiles.obj.tile import Tile
 from time import mktime
 from datetime import datetime
@@ -16,7 +17,7 @@ def get_feed():
 		return feed.read()
 
 
-class SABnzbd:
+class SABnzbd(TileSource):
 	
 	def __init__(self):
 		self.module = "SABnzbd"
@@ -30,7 +31,7 @@ class SABnzbd:
 			t.title = i.title
 			t.module = self.module
 			t.text = ""
-			t.link = host
+			t.link = cherrypy.config['addons.sabnzbd.host']
 			t.date = datetime.fromtimestamp(mktime(i.published_parsed))
 			tiles.append(t)
 		return tiles

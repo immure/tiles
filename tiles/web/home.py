@@ -35,6 +35,8 @@ class Root:
 
 
 		tmpl = env.get_template('index.html')
-		return tmpl.render(tiles=tiles,msg=cherrypy.config['sever.environment'])
+		return tmpl.render(tiles_i=tiles,msg='',menu_link=get_module_menu_link)
 
+def get_module_menu_link(module):
+	return "<img src='img/" + module + ".png' width=16 height=16 /><input type='checkbox' name='" + module + "' value='" + module + "'/>" + module
 
