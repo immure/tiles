@@ -43,9 +43,9 @@
 	<h2>{{ msg }}</h2>
 	<div class="menu" id="menu">
 		<ul>
-			<li>{{menu_link('Facebook')}}</li>
-			<li>{{menu_link('SABnzbd')}}</li>
-			<li>{{menu_link('Gmail')}}</li>
+		{% for plugin in plugins %}
+			<li>{{menu_link(plugin)}}</li>
+		{% endfor %}
 		</ul>
 	</div>
 	<div class="container" id="container" >

@@ -23,13 +23,14 @@ def get_unread_msgs_atom(user, passwd):
 
 
 class GMail(TileSource):
+
 	
 	def __init__(self):
 		self.module = "GMail"
 
 	def get_tiles(self):
-		user = cherrypy.config['addons.gmail.username']
-		password = cherrypy.config['addons.gmail.password']
+		user = self.get_prop('username')
+		password = self.get_prop('password')
 		rawfeed = get_unread_msgs_atom(user, password)
 		f = feedparser.parse(rawfeed)
 		tiles = []

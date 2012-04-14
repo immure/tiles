@@ -10,20 +10,19 @@ from datetime import datetime
 
 
 
-def get_feed():
-		host = cherrypy.config['addons.sabnzbd.host']
-		apikey = cherrypy.config['addons.sabnzbd.apikey']
+class SABnzbd(TileSource):
+
+	def get_feed(self):
+		host = self.get_prop('host')
+		apikey = self.get_prop('apikey')
 		feed = urllib2.urlopen(host + '/sabnzbd/rss?mode=history&apikey=' + apikey)
 		return feed.read()
-
-
-class SABnzbd(TileSource):
 	
 	def __init__(self):
 		self.module = "SABnzbd"
 
 	def get_tiles(self):
-		rawfeed = get_feed()
+		rawfeed = self.get_feed()
 		f = feedparser.parse(rawfeed)
 		tiles = []
 		for i in f.entries:
@@ -31,7 +30,7 @@ class SABnzbd(TileSource):
 			t.title = i.title
 			t.module = self.module
 			t.text = ""
-			t.link = cherrypy.config['addons.sabnzbd.host']
+			t.link = self.get_prop('host')
 			t.date = datetime.fromtimestamp(mktime(i.published_parsed))
 			tiles.append(t)
 		return tiles

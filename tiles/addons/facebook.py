@@ -8,18 +8,17 @@ from tiles.obj.tile import Tile
 from time import mktime
 from datetime import datetime
 
-def get_feed():
-    feed = urllib2.urlopen(cherrypy.config['addons.facebook.notifications.rss'])
-    return feed.read()
-
-
 class Facebook(TileSource):
+
+	def get_feed(self):
+		feed = urllib2.urlopen(self.get_prop('notifications.rss'))
+		return feed.read()
 	
 	def __init__(self):
 		self.module = "Facebook"
 
 	def get_tiles(self):
-		rawfeed = get_feed()
+		rawfeed = self.get_feed()
 		f = feedparser.parse(rawfeed)
 		tiles = []
 		for entry in f.entries:
