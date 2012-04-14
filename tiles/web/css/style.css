@@ -1,0 +1,5 @@
+body{ margin: 0; }
+.gallery{ float:top; width:200px; list-style:none; margin:0; padding:0;}
+.gallery li{ float:top; clear:both; width:100%; height:200px; border:1px solid #000;}
+.gallery li a{ display:block; width:100%; height:50%; background:#ccc;}
+.module_icon_small{ width: 32px; height: 32px; float: left }
