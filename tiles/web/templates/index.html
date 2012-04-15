@@ -40,13 +40,16 @@
 
 	</head>
 	<body padding=0>
-	<h2>{{ msg }}</h2>
 	<div class="menu" id="menu">
-		<ul>
-		{% for plugin in plugins %}
-			<li>{{menu_link(plugin)}}</li>
-		{% endfor %}
-		</ul>
+		<h2>Sources</h2>
+		<form name="module_selection" action="select_modules" method="post">
+			<ul>
+			{% for plugin in plugins %}
+				<li>{{menu_link(plugin)}}</li>
+			{% endfor %}
+			</ul>
+			<input type="submit" value="Select" />
+		</form>
 	</div>
 	<div class="container" id="container" >
 		<!--<div class="item header">
@@ -62,7 +65,7 @@
 					</div>
 
 					<h2 class="title">{{tile.title}}</h2>
-					<p class="subline">{{tile.module}} - {{tile.date}}</p>
+					<p class="subline">{{tile.module}} - {{tile.get_time_since_str()}}</p>
 					<div class="intro">
 						<p>
 							{{tile.text}}

@@ -8,6 +8,8 @@ from tiles.obj.tile import Tile
 from time import mktime
 from datetime import datetime
 
+# https://graph.facebook.com/fql?q={"query1":"SELECT sender_id, created_time, title_text, href from notification where recipient_id=me()","query2":"SELECT name, uid, pic_square from user where uid in (select sender_id from #query1)"}&accesstoken=
+
 class Facebook(TileSource):
 
 	def get_feed(self):

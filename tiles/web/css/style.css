@@ -5,3 +5,4 @@ body{ margin: 0; }
 	text-transform: uppercase;
 	letter-spacing: 2px;}
 #menu ul li input {width:20px}
+#menu input {width: 110px}

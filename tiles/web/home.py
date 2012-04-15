@@ -23,16 +23,32 @@ class Root:
 		# Load modules manually for now
 
 		for plugin in TileSource.plugins:
-			t = plugin().get_tiles()
 			plugins.append({'name' : plugin.__name__, 'enabled' : plugin().get_enabled()})
-			for i in t:
-				tiles.append(i)
+			if (plugin().get_enabled()):
+				t = plugin().get_tiles()
+				for i in t:
+					tiles.append(i)
 
 		tiles = sorted(tiles, key=get_date, reverse=True)	
 
 
 		tmpl = env.get_template('index.html')
 		return tmpl.render(tiles_i=tiles,msg='',menu_link=get_module_menu_link,plugins=plugins)
+
+	@cherrypy.expose
+	@cherrypy.tools.allow(methods=['POST'])
+	def select_modules(self, **vars):
+		pprint.PrettyPrinter().pprint(vars)
+		for plugin in TileSource.plugins:
+			name = plugin.__name__
+			if (name not in vars and plugin().get_enabled()):
+				print 'Disabling ' + name
+				plugin().disable()
+			if (name in vars and not plugin().get_enabled()):
+				print 'Enabling ' + name
+				plugin().enable()
+		raise cherrypy.HTTPRedirect("/")
+
 
 def get_module_menu_link(module):
 	name = module['name']
