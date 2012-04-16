@@ -1,8 +1,5 @@
-import dateutil.parser
 import feedparser
 import urllib2
-import pprint
-import cherrypy
 from tiles.addons.plugin import TileSource
 from tiles.obj.tile import Tile
 from time import mktime
@@ -27,9 +24,9 @@ class SABnzbd(TileSource):
 		tiles = []
 		for i in f.entries:
 			t = Tile()
-			t.title = i.title
+			t.title = "Download Complete"
 			t.module = self.module
-			t.text = ""
+			t.text = i.title
 			t.link = self.get_prop('host')
 			t.date = datetime.fromtimestamp(mktime(i.published_parsed))
 			tiles.append(t)

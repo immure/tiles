@@ -1,8 +1,5 @@
-import dateutil.parser
 import feedparser
 import urllib2
-import pprint
-import cherrypy
 from tiles.addons.plugin import TileSource
 from tiles.obj.tile import Tile
 from time import mktime

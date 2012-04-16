@@ -57,23 +57,27 @@
 			<p class="subline">Your life. Just There.</p>
 		</div>-->
 			{% for tile in tiles_i %}
-				<div class="item block"  data-bgimage="img/{{tile.module}}.png">
-					<div class="thumbs-wrapper">
-						<div class="thumbs">
-							<img src="img/{{tile.module}}.png" />	
-						</div>
-					</div>
+				<div class="item block"  {% if (tile.mainimage): %}data-bgimage="{{tile.mainimage}}" {% endif %}>
 
-					<h2 class="title">{{tile.title}}</h2>
-					<p class="subline">{{tile.module}} - {{tile.get_time_since_str()}}</p>
+
+					<h2 class="title">					
+					<img src="img/{{tile.module}}.png" width=16 height=16/> {{tile.title}}</h2>
+					
 					<div class="intro">
+					{% for thumb in tile.thumbs %}
+						<img src="{{thumb}}" class="thumbs"/>	
+					{% endfor %}
 						<p>
-							{{tile.text}}
+							{{tile.text}}<br/>
+							<a href="#" class="more_link">View more</a>
 						</p>
 					</div>
+					
 					<div class="project-descr">
 						<p>Not yet supported</p>
 					</div>
+					
+					<p class="subline">{{tile.module}} - {{tile.get_time_since_str()}}</p>
 				</div>
 			{% endfor %}
 		</div>

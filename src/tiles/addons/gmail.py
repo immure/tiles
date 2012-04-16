@@ -1,7 +1,5 @@
-import dateutil.parser
 import feedparser
 import urllib2
-import cherrypy
 from tiles.addons.plugin import TileSource
 from tiles.obj.tile import Tile
 from time import mktime
@@ -9,17 +7,17 @@ from datetime import datetime
 
 
 def get_unread_msgs_atom(user, passwd):
-    auth_handler = urllib2.HTTPBasicAuthHandler()
-    auth_handler.add_password(
+	auth_handler = urllib2.HTTPBasicAuthHandler() #@IndentOk
+	auth_handler.add_password(
         realm='New mail feed',
         uri='https://mail.google.com',
         user='%s' % user,
         passwd=passwd
     )
-    opener = urllib2.build_opener(auth_handler)
-    urllib2.install_opener(opener)
-    feed = urllib2.urlopen('https://mail.google.com/mail/feed/atom/important')
-    return feed.read()
+	opener = urllib2.build_opener(auth_handler)
+	urllib2.install_opener(opener)
+	feed = urllib2.urlopen('https://mail.google.com/mail/feed/atom/important')
+	return feed.read()
 
 
 class GMail(TileSource):

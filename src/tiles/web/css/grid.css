@@ -125,19 +125,26 @@ p.subline{
 	background: #222;
 	color: white;
 	padding: 2px 5px;
+	vertical-align:top;
+	 
 }
 .block p{
 	font-style:italic;
 	line-height:20px;
-	padding-bottom:5px;
+	word-wrap: break-word;
 }
-.block p.subline{
+.block p.intro{
+	padding-top:5px;
 	margin:10px 0px;
+}
+
+.block p.subline{
+	
 	font-style:normal;
 }
 .block img{
 	border:none;
-	display:block;
+	display:inline;
 }
 .project-descr{
 	display:none;
@@ -175,11 +182,20 @@ p.subline{
 	box-shadow:1px 1px 2px rgba(0,0,0,0.2);
 }
 .thumbs-wrapper{
+	background-color: #ccc;
 	overflow:hidden;
 	position:relative;
+	width: 260px;
+	float: left;
+	display: inline-table;
 }
+.thumbs{
+	padding: 10px 0px;
+}
+
 .thumbs img{
 	float:left;
+	align: center;
 }
 .thumbs-nav span{
 	position:absolute;
