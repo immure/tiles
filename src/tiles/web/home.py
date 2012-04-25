@@ -1,46 +1,59 @@
 import cherrypy 
 import pprint
-import sys
-import traceback
+import json
 from jinja2 import Environment, FileSystemLoader
 from tiles.addons.plugin import TileSource
 from tiles.addons import * #@UnusedWildImport
+from tiles.services.tile_service import TileService
+from pprint import PrettyPrinter
+from datetime import datetime
 
 
-def get_date(tile):
-	return tile.date
+
 
 
 env = Environment(loader=FileSystemLoader('tiles/web/templates'))
 class Root:
+	
+	service = TileService()
+	pprint = PrettyPrinter()
+	
 	@cherrypy.expose
 	def index(self):
 
-		tiles = []
-		plugins = []
+		service_results = self.service.get_tiles()
 
-		# Load modules manually for now
-
-		for plugin in TileSource.plugins: #@UndefinedVariable
-			plugin_data = {'name' : plugin.__name__, 'enabled' : plugin().get_enabled(), 'errors' : []}
-
-			if (plugin().get_enabled()):
-				try:
-					t = plugin().get_tiles()
-					for i in t:
-						tiles.append(i)
-				except:
-					print "Unexpected error:", sys.exc_info()[0]
-					traceback.print_exc()
-					plugin_data.get('errors').append(sys.exc_info()[0])
-			plugins.append(plugin_data)
-
-		tiles = sorted(tiles, key=get_date, reverse=True)	
-
+		
+		plugins = service_results['plugins']	
+		tiles = service_results['tiles']
 
 		tmpl = env.get_template('index.html')
 		return tmpl.render(tiles_i=tiles,msg='',menu_link=get_module_menu_link,plugins=plugins)
-
+	
+	@cherrypy.expose
+	def json(self, jsoncallback, _):
+		timestamp = int(_)/1000
+		print datetime.fromtimestamp(timestamp)
+		service_results = self.service.get_tiles(True)
+		plugins = service_results['plugins']
+		tiles = []
+		for t in service_results['tiles']:
+			t.date = ''
+			tiles.append(t.__dict__)
+		j = pprint.pformat({ 'plugins' : plugins, 'tiles' : tiles })
+		
+		return jsoncallback + '(' + json.dumps(tiles) + ')'
+	
+	@cherrypy.expose
+	def ajax(self):
+		plugins = self.service.get_plugins(True);
+		for plugin_d in plugins:
+			plugin = plugin_d['plugin']
+			if plugin.get_enabled() and not plugin.is_logged_in():
+				plugin.log_in()
+		tmpl = env.get_template('ajaxy.html')
+		return tmpl.render(menu_link=get_module_menu_link,plugins=plugins)
+		
 	@cherrypy.expose
 	@cherrypy.tools.allow(methods=['POST'])
 	def select_modules(self, **post_vars):
@@ -54,6 +67,9 @@ class Root:
 				print 'Enabling ' + name
 				plugin().enable()
 		raise cherrypy.HTTPRedirect("/")
+	
+
+		
 
 
 def get_module_menu_link(module):

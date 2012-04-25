@@ -8,3 +8,7 @@ body{ margin: 0; }
 #menu input {width: 110px}
 
 #menu .error {color: red}
+
+.hidden { visibility: hidden;}
+
+#loading { visibility: hidden; }

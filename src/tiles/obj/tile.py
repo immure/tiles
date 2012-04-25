@@ -1,4 +1,5 @@
 import datetime
+import json
 
 class Tile:
 
@@ -21,7 +22,26 @@ class Tile:
 
 	def get_time_since_str(self):
 		return pretty_date(self.date)
-
+	
+	def json(self):
+#		objs = {}
+#		objs['title'] = self.title
+#		objs['module'] = self.module
+#		objs['text'] = self.text
+#		objs['link'] = self.link
+#		#objs['date'] = self.date
+#		objs['thumbs'] = self.thumbs
+#		objs['mainimage'] = self.mainimage
+		self.date = 'None'
+		return json.dumps(self, default=json_encode_tile)
+	
+def json_encode_tile(tile):
+	if not isinstance(tile, Tile):
+		raise TypeError("%r is not JSON serializable" % (tile,))
+	
+	tile.date = None
+	return tile.__dict__
+	
 def pretty_date(time=False):
 	"""
 	Get a datetime object or a int() Epoch timestamp and return a
@@ -40,7 +60,7 @@ def pretty_date(time=False):
 	day_diff = diff.days
 
 	if day_diff < 0:
-		return ''
+		return 'just now'
 
 	if day_diff == 0:
 		if second_diff < 10:

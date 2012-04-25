@@ -17,6 +17,9 @@ class PluginMount(type):
 
 class TileSource:
 	__metaclass__ = PluginMount
+	
+	def get_tiles(self):
+		return []
 
 	def get_prop(self, name):
 		return cherrypy.config['addons.' + self.__class__.__name__ + '.' + name]		
@@ -35,3 +38,9 @@ class TileSource:
 
 	def enable(self):
 		self.set_enabled(True)
+		
+	def is_logged_in(self):
+		return True
+	
+	def log_in(self):
+		return True
